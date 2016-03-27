@@ -218,48 +218,73 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String sortOrder = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME+" ASC";
 
         //Retrieve all contacts
-        Cursor cursorAll = contentResolver.query(uri,projection,selection,selectionArgs,sortOrder);
+        Cursor cursorAll = contentResolver.query(uri,projection,selection,selectionArgs,null);
 
-        while (cursorAll.moveToNext()) {
-            String contactID = cursorAll.getString(cursorAll.getColumnIndex(ContactsContract.Data.CONTACT_ID));
-            Log.e("cid", contactID);
+        if(cursorAll !=null){
+            cursorAll.moveToFirst();
+
+            for(int i=0;i<cursorAll.getCount();i++)
+            {
+                String contactID = cursorAll.getString(cursorAll.getColumnIndex(ContactsContract.Data.CONTACT_ID));
+
+                Cursor phoneNumCursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{contactID}, null);
+
+                phoneNumCursor.moveToFirst();
+
+               for (int j=0;j<phoneNumCursor.getCount();j++) {
+                    String phoneNumber = phoneNumCursor.getString(phoneNumCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                    String numI = phoneNumCursor.getString(phoneNumCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID));
+
+                    updateContact(contactID,phoneNumber,numI);
+                    Log.e("INI","phNum:" + phoneNumber +" . numId:" +numI + "   .ID is : "+contactID);
+
+                }
+
+                phoneNumCursor.close();
 
 
-            Cursor phoneNumCursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{contactID}, null);
-
-            phoneNumCursor.moveToFirst();
-
-            while (phoneNumCursor.moveToNext()) {
-                String phoneNumber = phoneNumCursor.getString(phoneNumCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                String numI = phoneNumCursor.getString(phoneNumCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID));
-
-                updateContact(contactID,phoneNumber,numI);
-                Log.e("phones",phoneNumber);
-                Log.e("phI",numI);
             }
-
-            phoneNumCursor.close();
-
+        }
+//        while (cursorAll.moveToNext()) {
+//            String contactID = cursorAll.getString(cursorAll.getColumnIndex(ContactsContract.Data.CONTACT_ID));
+//            Log.e("cid", contactID);
 //
-
-//            Integer count = phoneNumCursor.getCount();
-//            Log.e("count",count.toString());
-//            while (phoneNumCursor.moveToNext()){
-//                String phNum = phoneNumCursor.getString(phoneNumCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+//
+//            Cursor phoneNumCursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{contactID}, null);
+//
+//            phoneNumCursor.moveToFirst();
+//
+//            while (phoneNumCursor.moveToNext()) {
+//                String phoneNumber = phoneNumCursor.getString(phoneNumCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 //                String numI = phoneNumCursor.getString(phoneNumCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID));
 //
-//                //Calling a ContentProviderOperation newUpdate;
-//
-//
-//                Log.e("phN",phNum);
-//                Log.e("num",numI);
-//
-//
-//
-//
-//
+//                updateContact(contactID,phoneNumber,numI);
+//                Log.e("phones",phoneNumber);
+//                Log.e("phI",numI);
 //            }
-        }
+//
+//            phoneNumCursor.close();
+//
+////
+//
+////            Integer count = phoneNumCursor.getCount();
+////            Log.e("count",count.toString());
+////            while (phoneNumCursor.moveToNext()){
+////                String phNum = phoneNumCursor.getString(phoneNumCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+////                String numI = phoneNumCursor.getString(phoneNumCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID));
+////
+////                //Calling a ContentProviderOperation newUpdate;
+////
+////
+////                Log.e("phN",phNum);
+////                Log.e("num",numI);
+////
+////
+////
+////
+////
+////            }
+//        }
 
 //        while (cursor.moveToNext()){
 //
