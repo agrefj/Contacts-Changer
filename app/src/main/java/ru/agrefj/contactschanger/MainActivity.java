@@ -223,19 +223,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(cursorAll !=null){
             cursorAll.moveToFirst();
 
-            for(int i=0;i<cursorAll.getCount();i++)
+            while (cursorAll.moveToNext())
             {
                 String contactID = cursorAll.getString(cursorAll.getColumnIndex(ContactsContract.Data.CONTACT_ID));
 
                 Cursor phoneNumCursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{contactID}, null);
 
                 phoneNumCursor.moveToFirst();
+                Integer count = phoneNumCursor.getCount();
+                Log.e("count", count.toString());
 
-               for (int j=0;j<phoneNumCursor.getCount();j++) {
-                    String phoneNumber = phoneNumCursor.getString(phoneNumCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+               while (phoneNumCursor.moveToNext()){
+                    String phoneNumber = phoneNumCursor.getString(phoneNumCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DATA));
                     String numI = phoneNumCursor.getString(phoneNumCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID));
 
-                    updateContact(contactID,phoneNumber,numI);
+//                    updateContact(contactID,phoneNumber,numI);
                     Log.e("INI","phNum:" + phoneNumber +" . numId:" +numI + "   .ID is : "+contactID);
 
                 }
