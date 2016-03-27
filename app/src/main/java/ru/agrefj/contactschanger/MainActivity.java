@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     EditText et_digits;
     EditText et_newDigits;
 
+    Integer newNumber = 11111;
     ProgressBar progressBar;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -208,31 +209,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String[] projection = new String[] {
                 ContactsContract.Contacts._ID,
                 ContactsContract.Contacts.DISPLAY_NAME,
-                ContactsContract.CommonDataKinds.Phone._ID
+                ContactsContract.CommonDataKinds.Phone._ID,
+                ContactsContract.Contacts.HAS_PHONE_NUMBER,
+                ContactsContract.Data.CONTACT_ID
         };
         String selection = ContactsContract.Contacts.IN_VISIBLE_GROUP + " = '1'";
         String[] selectionArgs = null;
         String sortOrder = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME+" ASC";
 
-        Cursor cursorAll = contentResolver.query(uri,null, null, null, null);
-
-
-
+        //Retrieve all contacts
+        Cursor cursorAll = contentResolver.query(uri,projection,selection,selectionArgs,sortOrder);
 
         while (cursorAll.moveToNext()) {
             String contactID = cursorAll.getString(cursorAll.getColumnIndex(ContactsContract.Data.CONTACT_ID));
-            Log.e("cid",contactID);
+            Log.e("cid", contactID);
 
 
-            Cursor phoneNumCursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",new String[]{contactID},null);
+            Cursor phoneNumCursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{contactID}, null);
 
             phoneNumCursor.moveToFirst();
-            Integer count = phoneNumCursor.getCount();
 
             while (phoneNumCursor.moveToNext()) {
-                String phoneNumber = phoneNumCursor.getString(phoneNumCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DATA));
+                String phoneNumber = phoneNumCursor.getString(phoneNumCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                 String numI = phoneNumCursor.getString(phoneNumCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID));
 
+                updateContact(contactID,phoneNumber,numI);
                 Log.e("phones",phoneNumber);
                 Log.e("phI",numI);
             }
@@ -316,19 +317,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    public void updateContact(String name, String number, String ContactId, String newNumber) {
+    public void updateContact(String contactId, String number, String numberId) {
 
+        String newNum = newNumber.toString();
+        newNumber++;
         try {
-
-
             ContentResolver contentResolver = this.getContentResolver();
-            String where = ContactsContract.Data.CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
-            String[] numberParams = new String[]{ContactId, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE};
+
+
+
+            String where = ContactsContract.CommonDataKinds.Phone._ID+ " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
+            String[] numberParams = new String[]{numberId, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE};
             ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
 
             ops.add(ContentProviderOperation.newUpdate(ContactsContract.Data.CONTENT_URI)
                     .withSelection(where, numberParams)
-                    .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, newNumber)
+                    .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, newNum)
                     .build());
 
             contentResolver.applyBatch(ContactsContract.AUTHORITY, ops);
