@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Contacts Changer</string>
+    <string name="sought_digits">Enter the digits to change:</string>
+    <string name="changed_digits">Enter the digits to change for:</string>
+    <string name="add_exception">Add an exception</string>
+    <string name="change_contacts">Change contacts</string>
+    <string name="exception">Enter exceptions (Optional)</string>
+    <string name="caution">At least one form is empty</string>
+    <string name="ex1">Ex. "8"</string>
+    <string name="ex2">Ex. "+7"</string>
+
+
+</resources>

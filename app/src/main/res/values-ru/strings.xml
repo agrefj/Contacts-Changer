@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Contacts Changer</string>
+    <string name="sought_digits">Введите изменяемый код:</string>
+    <string name="changed_digits">Введите новый код:</string>
+    <string name="add_exception">Add an exception</string>
+    <string name="change_contacts">Изменить номера</string>
+    <string name="exception">Enter exceptions (Optional)</string>
+    <string name="caution">Не все поля заполнены!</string>
+    <string name="ex1">Напр. "8"</string>
+    <string name="ex2">Напр. "+7"</string>
+
+</resources>
