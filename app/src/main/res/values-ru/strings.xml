@@ -8,5 +8,7 @@
     <string name="caution">Не все поля заполнены!</string>
     <string name="ex1">Напр. "8"</string>
     <string name="ex2">Напр. "+7"</string>
+    <string name="progress">Прогресс:</string>
+    <string name="of">из</string>
 
 </resources>

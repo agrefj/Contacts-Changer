@@ -49,14 +49,48 @@
         android:text="@string/change_contacts"
         android:id="@+id/btn_changeContacts" />
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:id="@+id/progressBar"
-        android:visibility="invisible"
-        android:layout_gravity="center_horizontal" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/ll_progress"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/progress"
+            android:layout_gravity="center_horizontal"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:id="@+id/tv_done"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/of"
+                android:layout_margin="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:id="@+id/tv_from"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
 
 
 </LinearLayout>

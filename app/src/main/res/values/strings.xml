@@ -8,6 +8,8 @@
     <string name="caution">At least one form is empty</string>
     <string name="ex1">Ex. "8"</string>
     <string name="ex2">Ex. "+7"</string>
+    <string name="progress">Progress:</string>
+    <string name="of">of</string>
 
 
 </resources>
